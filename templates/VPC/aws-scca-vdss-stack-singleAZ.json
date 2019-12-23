@@ -148,7 +148,7 @@
                                     "Ref": "VdssVpcCidr"
                                 },
                                 16,
-                                "8"
+                                8
                             ]
                         }
                     ]
@@ -281,7 +281,7 @@
                                     "Ref": "VdssVpcCidr"
                                 },
                                 16,
-                                "8"
+                                8
                             ]
                         }
                     ]
@@ -378,7 +378,7 @@
                                     "Ref": "VdssVpcCidr"
                                 },
                                 16,
-                                "8"
+                                8
                             ]
                         }
                     ]
@@ -475,7 +475,7 @@
                                     "Ref": "VdssVpcCidr"
                                 },
                                 16,
-                                "8"
+                                8
                             ]
                         }
                     ]
@@ -602,7 +602,7 @@
                                     "Ref": "VdssVpcCidr"
                                 },
                                 16,
-                                "8"
+                                8
                             ]
                         }
                     ]
@@ -925,7 +925,7 @@
                                 "Ref": "VdssVpcCidr"
                             },
                             16,
-                            "8"
+                            8
                         ]
                     }
                 ]
@@ -954,7 +954,7 @@
                                 "Ref": "VdssVpcCidr"
                             },
                             16,
-                            "8"
+                            8
                         ]
                     }
                 ]
@@ -983,7 +983,7 @@
                                 "Ref": "VdssVpcCidr"
                             },
                             16,
-                            "8"
+                            8
                         ]
                     }
                 ]
@@ -1012,7 +1012,7 @@
                                 "Ref": "VdssVpcCidr"
                             },
                             16,
-                            "8"
+                            8
                         ]
                     }
                 ]
@@ -1036,9 +1036,9 @@
                 "Fn::Join": [
                     ".",
                     [
-                        {"Fn::Select" : [ 0, { "Fn::Split": [ ".", { "Fn::Select" : [ 3, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
-                        {"Fn::Select" : [ 1, { "Fn::Split": [ ".", { "Fn::Select" : [ 3, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
-                        {"Fn::Select" : [ 2, { "Fn::Split": [ ".", { "Fn::Select" : [ 3, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
+                        {"Fn::Select" : [ 0, { "Fn::Split": [ ".", { "Fn::Select" : [ 3, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, 8 ] } ] } ] } ]},
+                        {"Fn::Select" : [ 1, { "Fn::Split": [ ".", { "Fn::Select" : [ 3, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, 8 ] } ] } ] } ]},
+                        {"Fn::Select" : [ 2, { "Fn::Split": [ ".", { "Fn::Select" : [ 3, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, 8 ] } ] } ] } ]},
                         "1"
                     ]
                 ]
@@ -1062,9 +1062,9 @@
                 "Fn::Join": [
                     ".",
                     [
-                        {"Fn::Select" : [ 0, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
-                        {"Fn::Select" : [ 1, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
-                        {"Fn::Select" : [ 2, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
+                        {"Fn::Select" : [ 0, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, 8 ] } ] } ] } ]},
+                        {"Fn::Select" : [ 1, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, 8 ] } ] } ] } ]},
+                        {"Fn::Select" : [ 2, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, 8 ] } ] } ] } ]},
                         "50"
                     ]
                 ]
@@ -1088,9 +1088,9 @@
                 "Fn::Join": [
                     ".",
                     [
-                        {"Fn::Select" : [ 0, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
-                        {"Fn::Select" : [ 1, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
-                        {"Fn::Select" : [ 2, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
+                        {"Fn::Select" : [ 0, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, 8 ] } ] } ] } ]},
+                        {"Fn::Select" : [ 1, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, 8 ] } ] } ] } ]},
+                        {"Fn::Select" : [ 2, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, 8 ] } ] } ] } ]},
                         "50"
                     ]
                 ]
@@ -1114,9 +1114,9 @@
                 "Fn::Join": [
                     ".",
                     [
-                        {"Fn::Select" : [ 0, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
-                        {"Fn::Select" : [ 1, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
-                        {"Fn::Select" : [ 2, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
+                        {"Fn::Select" : [ 0, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, 8 ] } ] } ] } ]},
+                        {"Fn::Select" : [ 1, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, 8 ] } ] } ] } ]},
+                        {"Fn::Select" : [ 2, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, 8 ] } ] } ] } ]},
                         "10"
                     ]
                 ]
@@ -1140,9 +1140,9 @@
                 "Fn::Join": [
                     ".",
                     [
-                        {"Fn::Select" : [ 0, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
-                        {"Fn::Select" : [ 1, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
-                        {"Fn::Select" : [ 2, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
+                        {"Fn::Select" : [ 0, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, 8 ] } ] } ] } ]},
+                        {"Fn::Select" : [ 1, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, 8 ] } ] } ] } ]},
+                        {"Fn::Select" : [ 2, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, 8 ] } ] } ] } ]},
                         "10"
                     ]
                 ]

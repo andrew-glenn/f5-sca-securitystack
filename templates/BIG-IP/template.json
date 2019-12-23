@@ -2071,8 +2071,8 @@
         {
          "DeviceName": "/dev/xvda",
          "Ebs": {
-          "DeleteOnTermination": "true",
-          "VolumeSize": "100",
+          "DeleteOnTermination": true,
+          "VolumeSize": 100,
           "VolumeType": "gp2"
          }
         },
@@ -3072,8 +3072,8 @@
         {
          "DeviceName": "/dev/xvda",
          "Ebs": {
-          "DeleteOnTermination": "true",
-          "VolumeSize": "100",
+          "DeleteOnTermination": true,
+          "VolumeSize": 100,
           "VolumeType": "gp2"
          }
         },
@@ -3268,7 +3268,7 @@
          "Ref": "bigipExternalSecurityGroup"
         }
        ],
-       "SecondaryPrivateIpAddressCount": "1",
+       "SecondaryPrivateIpAddressCount": 1,
        "SourceDestCheck": false,
        "SubnetId": {
         "Fn::If" : [
@@ -3322,25 +3322,25 @@
          "CidrIp": {
           "Ref": "restrictedSrcAddressApp"
          },
-         "FromPort": "80",
+         "FromPort": 80,
          "IpProtocol": "tcp",
-         "ToPort": "80"
+         "ToPort": 80
         },
         {
          "CidrIp": {
           "Ref": "restrictedSrcAddressApp"
          },
-         "FromPort": "443",
+         "FromPort": 443,
          "IpProtocol": "tcp",
-         "ToPort": "443"
+         "ToPort": 443
         },
         {
          "CidrIp": {
             "Ref": "restrictedSrcAddressApp"
          },
-         "FromPort": "22",
+         "FromPort": 22,
          "IpProtocol": "tcp",
-         "ToPort": "22"
+         "ToPort": 22
         },
         { 
         "IpProtocol" : "icmp", 
@@ -3470,17 +3470,17 @@
          "CidrIp": {
           "Ref": "restrictedSrcAddress"
          },
-         "FromPort": "22",
+         "FromPort": 22,
          "IpProtocol": "tcp",
-         "ToPort": "22"
+         "ToPort": 22
         },
         {
          "CidrIp": {
           "Ref": "restrictedSrcAddress"
          },
-         "FromPort": "443",
+         "FromPort": 443,
          "IpProtocol": "tcp",
-         "ToPort": "443"
+         "ToPort": 443
         },
         { 
         "IpProtocol" : "icmp", 
@@ -3543,7 +3543,7 @@
      },
      "bigipSecurityGroupIngressConfigSync": {
       "Properties": {
-       "FromPort": "4353",
+       "FromPort": 4353,
        "GroupId": {
         "Ref": "bigipInternalSecurityGroup"
        },
@@ -3551,13 +3551,13 @@
        "SourceSecurityGroupId": {
         "Ref": "bigipInternalSecurityGroup"
        },
-       "ToPort": "4353"
+       "ToPort": 4353
       },
       "Type": "AWS::EC2::SecurityGroupIngress"
      },
      "bigipSecurityGroupIngressHa": {
       "Properties": {
-       "FromPort": "1026",
+       "FromPort": 1026,
        "GroupId": {
         "Ref": "bigipInternalSecurityGroup"
        },
@@ -3565,13 +3565,13 @@
        "SourceSecurityGroupId": {
         "Ref": "bigipInternalSecurityGroup"
        },
-       "ToPort": "1026"
+       "ToPort": 1026
       },
       "Type": "AWS::EC2::SecurityGroupIngress"
      },
      "bigipSecurityGroupIngressManagmentSame": {
       "Properties": {
-       "FromPort": "443",
+       "FromPort": 443,
        "GroupId": {
         "Ref": "bigipManagementSecurityGroup"
        },
@@ -3579,7 +3579,7 @@
        "SourceSecurityGroupId": {
         "Ref": "bigipManagementSecurityGroup"
        },
-       "ToPort": "443"
+       "ToPort": 443
       },
       "Type": "AWS::EC2::SecurityGroupIngress"
      },
