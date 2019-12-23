@@ -1,11 +1,11 @@
 {
     "Parameters": {
-        "pProject": {
+        "Project": {
             "Type": "String",
             "Default": "SCCA-App-Demo",
             "Description": "Project name to use for tagging"
         },
-        "pVdssVpcCidr": {
+        "VdssVpcCidr": {
             "Type": "String",
             "Default": "10.0.0.0/16",
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
@@ -14,7 +14,7 @@
             "MaxLength": 18,
             "MinLength": 9
         },
-        "pAppVpcCidr": {
+        "AppVpcCidr": {
             "Type": "String",
             "Default": "10.1.0.0/16",
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
@@ -23,7 +23,7 @@
             "MaxLength": 18,
             "MinLength": 9
         },
-        "pFargateVpcCidr": {
+        "FargateVpcCidr": {
             "Type": "String",
             "Default": "10.2.0.0/16",
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
@@ -32,18 +32,18 @@
             "MaxLength": 18,
             "MinLength": 9
         },
-        "pTransitGatewayStackName": {
+        "TransitGatewayStackName": {
             "Type": "String",
             "Default": "SccaTgwStack",
             "Description": "Transit Gateway Stack Name"
         }
     },
     "Resources": {
-        "rFargateVpc": {
+        "FargateVpc": {
             "Type": "AWS::EC2::VPC",
             "Properties": {
                 "CidrBlock": {
-                    "Ref": "pFargateVpcCidr"
+                    "Ref": "FargateVpcCidr"
                 },
                 "EnableDnsHostnames": true,
                 "EnableDnsSupport": true,
@@ -55,7 +55,7 @@
                     {
                         "Key": "Project",
                         "Value": {
-                            "Ref": "pProject"
+                            "Ref": "Project"
                         }
                     }
                 ]
@@ -64,11 +64,11 @@
                 "aws:cdk:path": "SccaFargateStack/rFargateVpc"
             }
         },
-        "rFargateMainRouteTable": {
+        "FargateMainRouteTable": {
             "Type": "AWS::EC2::RouteTable",
             "Properties": {
                 "VpcId": {
-                    "Ref": "rFargateVpc"
+                    "Ref": "FargateVpc"
                 },
                 "Tags": [
                     {
@@ -78,7 +78,7 @@
                     {
                         "Key": "Project",
                         "Value": {
-                            "Ref": "pProject"
+                            "Ref": "Project"
                         }
                     }
                 ]
@@ -87,7 +87,7 @@
                 "aws:cdk:path": "SccaFargateStack/rFargateMainRouteTable"
             }
         },
-        "rFargateSubnetA": {
+        "FargateSubnetA": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
                 "CidrBlock": {
@@ -96,7 +96,7 @@
                         {
                             "Fn::Cidr": [
                                 {
-                                    "Ref": "pFargateVpcCidr"
+                                    "Ref": "FargateVpcCidr"
                                 },
                                 16,
                                 "8"
@@ -105,7 +105,7 @@
                     ]
                 },
                 "VpcId": {
-                    "Ref": "rFargateVpc"
+                    "Ref": "FargateVpc"
                 },
                 "AvailabilityZone": {
                     "Fn::Select": [
@@ -123,7 +123,7 @@
                     {
                         "Key": "Project",
                         "Value": {
-                            "Ref": "pProject"
+                            "Ref": "Project"
                         }
                     }
                 ]
@@ -132,21 +132,21 @@
                 "aws:cdk:path": "SccaFargateStack/rFargateSubnetA"
             }
         },
-        "rFargateSubnetARouteTableAssociation": {
+        "FargateSubnetARouteTableAssociation": {
             "Type": "AWS::EC2::SubnetRouteTableAssociation",
             "Properties": {
                 "RouteTableId": {
-                    "Ref": "rFargateMainRouteTable"
+                    "Ref": "FargateMainRouteTable"
                 },
                 "SubnetId": {
-                    "Ref": "rFargateSubnetA"
+                    "Ref": "FargateSubnetA"
                 }
             },
             "Metadata": {
                 "aws:cdk:path": "SccaFargateStack/rFargateMainRouteTableAssociation"
             }
         },
-        "rFargateSubnetB": {
+        "FargateSubnetB": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
                 "CidrBlock": {
@@ -155,7 +155,7 @@
                         {
                             "Fn::Cidr": [
                                 {
-                                    "Ref": "pFargateVpcCidr"
+                                    "Ref": "FargateVpcCidr"
                                 },
                                 16,
                                 "8"
@@ -164,7 +164,7 @@
                     ]
                 },
                 "VpcId": {
-                    "Ref": "rFargateVpc"
+                    "Ref": "FargateVpc"
                 },
                 "AvailabilityZone": {
                     "Fn::Select": [
@@ -182,7 +182,7 @@
                     {
                         "Key": "Project",
                         "Value": {
-                            "Ref": "pProject"
+                            "Ref": "Project"
                         }
                     }
                 ]
@@ -191,21 +191,21 @@
                 "aws:cdk:path": "SccaAppStack/rFargateSubnetB"
             }
         },
-        "rFargateSubnetBRouteTableAssociation": {
+        "FargateSubnetBRouteTableAssociation": {
             "Type": "AWS::EC2::SubnetRouteTableAssociation",
             "Properties": {
                 "RouteTableId": {
-                    "Ref": "rFargateMainRouteTable"
+                    "Ref": "FargateMainRouteTable"
                 },
                 "SubnetId": {
-                    "Ref": "rFargateSubnetB"
+                    "Ref": "FargateSubnetB"
                 }
             },
             "Metadata": {
                 "aws:cdk:path": "SccaFargateStack/rAppMainRouteTableAssociation"
             }
         },
-        "rFargateSubnetPeer": {
+        "FargateSubnetPeer": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
                 "CidrBlock": {
@@ -214,7 +214,7 @@
                         {
                             "Fn::Cidr": [
                                 {
-                                    "Ref": "pFargateVpcCidr"
+                                    "Ref": "FargateVpcCidr"
                                 },
                                 16,
                                 "8"
@@ -223,7 +223,7 @@
                     ]
                 },
                 "VpcId": {
-                    "Ref": "rFargateVpc"
+                    "Ref": "FargateVpc"
                 },
                 "AvailabilityZone": {
                     "Fn::Select": [
@@ -241,7 +241,7 @@
                     {
                         "Key": "Project",
                         "Value": {
-                            "Ref": "pProject"
+                            "Ref": "Project"
                         }
                     }
                 ]
@@ -250,26 +250,26 @@
                 "aws:cdk:path": "SccaFargateStack/rFargateSubnetPeer"
             }
         },
-        "rFargateSubnetPeerRouteTableAssociation": {
+        "FargateSubnetPeerRouteTableAssociation": {
             "Type": "AWS::EC2::SubnetRouteTableAssociation",
             "Properties": {
                 "RouteTableId": {
-                    "Ref": "rFargateMainRouteTable"
+                    "Ref": "FargateMainRouteTable"
                 },
                 "SubnetId": {
-                    "Ref": "rFargateSubnetPeer"
+                    "Ref": "FargateSubnetPeer"
                 }
             },
             "Metadata": {
                 "aws:cdk:path": "SccaFargateStack/rAppMainRouteTableAssociation"
             }
         },
-        "rFargateTransitGatewayAttachement": {
+        "FargateTransitGatewayAttachement": {
             "Type": "AWS::EC2::TransitGatewayAttachment",
             "Properties": {
                 "SubnetIds": [
                     {
-                        "Ref": "rFargateSubnetPeer"
+                        "Ref": "FargateSubnetPeer"
                     }
                 ],
                 "TransitGatewayId": {
@@ -278,7 +278,7 @@
                             "",
                             [
                                 {
-                                    "Ref": "pTransitGatewayStackName"
+                                    "Ref": "TransitGatewayStackName"
                                 },
                                 "-SccaTgwId"
                             ]
@@ -286,7 +286,7 @@
                     }
                 },
                 "VpcId": {
-                    "Ref": "rFargateVpc"
+                    "Ref": "FargateVpc"
                 },
                 "Tags": [
                     {
@@ -296,7 +296,7 @@
                     {
                         "Key": "Project",
                         "Value": {
-                            "Ref": "pProject"
+                            "Ref": "Project"
                         }
                     }
                 ]
@@ -305,11 +305,11 @@
                 "aws:cdk:path": "SccaFargateStack/rTransitGatewayAttachement"
             }
         },
-        "rFargateTransitGatewayRouteTableAssociation": {
+        "FargateTransitGatewayRouteTableAssociation": {
             "Type": "AWS::EC2::TransitGatewayRouteTableAssociation",
             "Properties": {
                 "TransitGatewayAttachmentId": {
-                    "Ref": "rFargateTransitGatewayAttachement"
+                    "Ref": "FargateTransitGatewayAttachement"
                 },
                 "TransitGatewayRouteTableId": {
                     "Fn::ImportValue": {
@@ -317,7 +317,7 @@
                             "",
                             [
                                 {
-                                    "Ref": "pTransitGatewayStackName"
+                                    "Ref": "TransitGatewayStackName"
                                 },
                                 "-SccaMainTgwRouteTableId"
                             ]
@@ -329,11 +329,11 @@
                 "aws:cdk:path": "SccaFargateStack/rTransitGatewayRouteTableAssociation"
             }
         },
-        "rFargateTransitGatewayRouteTablePropagation": {
+        "FargateTransitGatewayRouteTablePropagation": {
             "Type": "AWS::EC2::TransitGatewayRouteTablePropagation",
             "Properties": {
                 "TransitGatewayAttachmentId": {
-                    "Ref": "rFargateTransitGatewayAttachement"
+                    "Ref": "FargateTransitGatewayAttachement"
                 },
                 "TransitGatewayRouteTableId": {
                     "Fn::ImportValue": {
@@ -341,7 +341,7 @@
                             "",
                             [
                                 {
-                                    "Ref": "pTransitGatewayStackName"
+                                    "Ref": "TransitGatewayStackName"
                                 },
                                 "-SccaMainTgwRouteTableId"
                             ]
@@ -353,7 +353,7 @@
                 "aws:cdk:path": "SccaFargateStack/rTransitGatewayRouteTablePropagation"
             }
         },
-        "rMainTransitGatewayRouteApp": {
+        "MainTransitGatewayRouteApp": {
             "Type": "AWS::EC2::TransitGatewayRoute",
             "Properties": {
                 "TransitGatewayRouteTableId": {
@@ -362,7 +362,7 @@
                             "",
                             [
                                 {
-                                    "Ref": "pTransitGatewayStackName"
+                                    "Ref": "TransitGatewayStackName"
                                 },
                                 "-SccaMainTgwRouteTableId"
                             ]
@@ -370,10 +370,10 @@
                     }
                 },
                 "DestinationCidrBlock": {
-                    "Ref": "pFargateVpcCidr"
+                    "Ref": "FargateVpcCidr"
                 },
                 "TransitGatewayAttachmentId": {
-                    "Ref": "rFargateTransitGatewayAttachement"
+                    "Ref": "FargateTransitGatewayAttachement"
                 }
             },
             "Metadata": {
@@ -382,9 +382,9 @@
         },
         "FargateDefaultRoute" : {
             "Type" : "AWS::EC2::Route",
-            "DependsOn" : "rFargateTransitGatewayAttachement",
+            "DependsOn" : "FargateTransitGatewayAttachement",
             "Properties" : {
-              "RouteTableId" : { "Ref" : "rFargateMainRouteTable" },
+              "RouteTableId" : { "Ref" : "FargateMainRouteTable" },
               "DestinationCidrBlock" : "0.0.0.0/0",
               "TransitGatewayId": {
                "Fn::ImportValue": {
@@ -392,7 +392,7 @@
                      "",
                      [
                          {
-                             "Ref": "pTransitGatewayStackName"
+                             "Ref": "TransitGatewayStackName"
                          },
                          "-SccaTgwId"
                      ]
@@ -403,17 +403,17 @@
         },
         "FargateRouteToVdss" : {
           "Type" : "AWS::EC2::Route",
-          "DependsOn" : "rFargateTransitGatewayAttachement",
+          "DependsOn" : "FargateTransitGatewayAttachement",
           "Properties" : {
-            "RouteTableId" : { "Ref" : "rFargateMainRouteTable" },
-            "DestinationCidrBlock" : { "Ref" : "pVdssVpcCidr" },
+            "RouteTableId" : { "Ref" : "FargateMainRouteTable" },
+            "DestinationCidrBlock" : { "Ref" : "VdssVpcCidr" },
             "TransitGatewayId": {
               "Fn::ImportValue": {
                 "Fn::Join": [
                   "",
                   [
                    {
-                    "Ref": "pTransitGatewayStackName"
+                    "Ref": "TransitGatewayStackName"
                    },
                    "-SccaTgwId"
                   ]
@@ -424,17 +424,17 @@
         },
         "FargateRouteToAppVpc" : {
             "Type" : "AWS::EC2::Route",
-            "DependsOn" : "rFargateTransitGatewayAttachement",
+            "DependsOn" : "FargateTransitGatewayAttachement",
             "Properties" : {
-            "RouteTableId" : { "Ref" : "rFargateMainRouteTable" },
-            "DestinationCidrBlock" : { "Ref" : "pAppVpcCidr" },
+            "RouteTableId" : { "Ref" : "FargateMainRouteTable" },
+            "DestinationCidrBlock" : { "Ref" : "AppVpcCidr" },
             "TransitGatewayId": {
             "Fn::ImportValue": {
                 "Fn::Join": [
                     "",
                     [
                         {
-                            "Ref": "pTransitGatewayStackName"
+                            "Ref": "TransitGatewayStackName"
                         },
                         "-SccaTgwId"
                     ]
@@ -470,7 +470,7 @@
                     {
                         "Fn::Cidr": [
                             {
-                                "Ref": "pFargateVpcCidr"
+                                "Ref": "FargateVpcCidr"
                             },
                             16,
                             "8"
@@ -499,7 +499,7 @@
                     {
                         "Fn::Cidr": [
                             {
-                                "Ref": "pFargateVpcCidr"
+                                "Ref": "FargateVpcCidr"
                             },
                             16,
                             "8"
@@ -528,7 +528,7 @@
                     {
                         "Fn::Cidr": [
                             {
-                                "Ref": "pFargateVpcCidr"
+                                "Ref": "FargateVpcCidr"
                             },
                             16,
                             "8"
@@ -552,7 +552,7 @@
         },
         "FargateVpcId": {
             "Value": {
-                "Ref": "rFargateVpc"
+                "Ref": "FargateVpc"
             },
             "Export": {
                 "Name": {
@@ -570,7 +570,7 @@
         },
         "FargateSubnetPeertId": {
             "Value": {
-                "Ref": "rFargateSubnetPeer"
+                "Ref": "FargateSubnetPeer"
             },
             "Export": {
                 "Name": {
@@ -588,7 +588,7 @@
         },
         "FargateSubnetAtId": {
             "Value": {
-                "Ref": "rFargateSubnetA"
+                "Ref": "FargateSubnetA"
             },
             "Export": {
                 "Name": {
@@ -606,7 +606,7 @@
         },
         "FargateSubnetBtId": {
             "Value": {
-                "Ref": "rFargateSubnetB"
+                "Ref": "FargateSubnetB"
             },
             "Export": {
                 "Name": {
@@ -624,7 +624,7 @@
         },
         "FargateMainRouteTable": {
             "Value": {
-                "Ref": "rFargateMainRouteTable"
+                "Ref": "FargateMainRouteTable"
             },
             "Export": {
                 "Name": {

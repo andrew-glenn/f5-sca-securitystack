@@ -1,11 +1,11 @@
 {
     "Parameters": {
-        "pProject": {
+        "Project": {
             "Type": "String",
             "Default": "SCCA-Demo",
             "Description": "Project name to use for tagging"
         },
-        "pVdssVpcCidr": {
+        "VdssVpcCidr": {
             "Type": "String",
             "Default": "10.0.0.0/16",
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
@@ -14,7 +14,7 @@
             "MaxLength": 18,
             "MinLength": 9
         },
-        "pAppVpcCidr": {
+        "AppVpcCidr": {
             "Type": "String",
             "Default": "10.1.0.0/16",
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
@@ -23,7 +23,7 @@
             "MaxLength": 18,
             "MinLength": 9
         },
-        "pFargateVpcCidr": {
+        "FargateVpcCidr": {
             "Type": "String",
             "Default": "10.2.0.0/16",
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
@@ -32,18 +32,18 @@
             "MaxLength": 18,
             "MinLength": 9
         },
-        "pTransitGatewayStackName": {
+        "TransitGatewayStackName": {
             "Type": "String",
             "Default": "SccaTgwStack",
             "Description": "Transit Gateway Stack Name"
         }
     },
     "Resources": {
-        "rVdssVpc": {
+        "VdssVpc": {
             "Type": "AWS::EC2::VPC",
             "Properties": {
                 "CidrBlock": {
-                    "Ref": "pVdssVpcCidr"
+                    "Ref": "VdssVpcCidr"
                 },
                 "EnableDnsHostnames": true,
                 "EnableDnsSupport": true,
@@ -55,7 +55,7 @@
                     {
                         "Key": "Project",
                         "Value": {
-                            "Ref": "pProject"
+                            "Ref": "Project"
                         }
                     }
                 ]
@@ -64,7 +64,7 @@
                 "aws:cdk:path": "SccaVdssStack/rVdssVpc"
             }
         },
-        "rVdssIgw": {
+        "VdssIgw": {
             "Type": "AWS::EC2::InternetGateway",
             "Properties": {
                 "Tags": [
@@ -75,7 +75,7 @@
                     {
                         "Key": "Project",
                         "Value": {
-                            "Ref": "pProject"
+                            "Ref": "Project"
                         }
                     }
                 ]
@@ -84,25 +84,25 @@
                 "aws:cdk:path": "SccaVdssStack/rVdssIgw"
             }
         },
-        "rVdssIgwAttachment": {
+        "VdssIgwAttachment": {
             "Type": "AWS::EC2::VPCGatewayAttachment",
             "Properties": {
                 "VpcId": {
-                    "Ref": "rVdssVpc"
+                    "Ref": "VdssVpc"
                 },
                 "InternetGatewayId": {
-                    "Ref": "rVdssIgw"
+                    "Ref": "VdssIgw"
                 }
             },
             "Metadata": {
                 "aws:cdk:path": "SccaVdssStack/rVdssIgwAttachment"
             }
         },
-        "rVdssOutsideRouteTable": {
+        "VdssOutsideRouteTable": {
             "Type": "AWS::EC2::RouteTable",
             "Properties": {
                 "VpcId": {
-                    "Ref": "rVdssVpc"
+                    "Ref": "VdssVpc"
                 },
                 "Tags": [
                     {
@@ -112,7 +112,7 @@
                     {
                         "Key": "Project",
                         "Value": {
-                            "Ref": "pProject"
+                            "Ref": "Project"
                         }
                     }
                 ]
@@ -121,22 +121,22 @@
                 "aws:cdk:path": "SccaVdssStack/rVdssOutsideRouteTable"
             }
         },
-        "rVdssOutsideRouteTableIgwRoute": {
+        "VdssOutsideRouteTableIgwRoute": {
             "Type": "AWS::EC2::Route",
             "Properties": {
                 "RouteTableId": {
-                    "Ref": "rVdssOutsideRouteTable"
+                    "Ref": "VdssOutsideRouteTable"
                 },
                 "DestinationCidrBlock": "0.0.0.0/0",
                 "GatewayId": {
-                    "Ref": "rVdssIgw"
+                    "Ref": "VdssIgw"
                 }
             },
             "Metadata": {
                 "aws:cdk:path": "SccaVdssStack/rVdssOutsideRouteTableIgwRoute"
             }
         },
-        "rVdssOutsideSubnet": {
+        "VdssOutsideSubnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
                 "CidrBlock": {
@@ -145,7 +145,7 @@
                         {
                             "Fn::Cidr": [
                                 {
-                                    "Ref": "pVdssVpcCidr"
+                                    "Ref": "VdssVpcCidr"
                                 },
                                 16,
                                 "8"
@@ -154,7 +154,7 @@
                     ]
                 },
                 "VpcId": {
-                    "Ref": "rVdssVpc"
+                    "Ref": "VdssVpc"
                 },
                 "AvailabilityZone": {
                     "Fn::Select": [
@@ -173,7 +173,7 @@
                     {
                         "Key": "Project",
                         "Value": {
-                            "Ref": "pProject"
+                            "Ref": "Project"
                         }
                     }
                 ]
@@ -182,37 +182,37 @@
                 "aws:cdk:path": "SccaVdssStack/rVdssOutsideSubnetA"
             }
         },
-        "rVdssOutsideSubnetRouteTableAssociation": {
+        "VdssOutsideSubnetRouteTableAssociation": {
             "Type": "AWS::EC2::SubnetRouteTableAssociation",
             "Properties": {
                 "RouteTableId": {
-                    "Ref": "rVdssOutsideRouteTable"
+                    "Ref": "VdssOutsideRouteTable"
                 },
                 "SubnetId": {
-                    "Ref": "rVdssOutsideSubnet"
+                    "Ref": "VdssOutsideSubnet"
                 }
             },
             "Metadata": {
                 "aws:cdk:path": "SccaVdssStack/rVdssOutsideSubnetRouteTableAssociation"
             }
         },
-        "rNatGatewayEipA": {
+        "NatGatewayEipA": {
             "Type": "AWS::EC2::EIP",
             "Metadata": {
                 "aws:cdk:path": "SccaVdssStack/rNatGatewayEipA"
             }
         },
-        "rNatGateway": {
+        "NatGateway": {
             "Type": "AWS::EC2::NatGateway",
             "Properties": {
                 "AllocationId": {
                     "Fn::GetAtt": [
-                        "rNatGatewayEipA",
+                        "NatGatewayEipA",
                         "AllocationId"
                     ]
                 },
                 "SubnetId": {
-                    "Ref": "rVdssOutsideSubnet"
+                    "Ref": "VdssOutsideSubnet"
                 },
                 "Tags": [
                     {
@@ -222,7 +222,7 @@
                     {
                         "Key": "Project",
                         "Value": {
-                            "Ref": "pProject"
+                            "Ref": "Project"
                         }
                     }
                 ]
@@ -231,11 +231,11 @@
                 "aws:cdk:path": "SccaVdssStack/rNatGateway"
             }
         },
-        "rVdssInternalRouteTable": {
+        "VdssInternalRouteTable": {
             "Type": "AWS::EC2::RouteTable",
             "Properties": {
                 "VpcId": {
-                    "Ref": "rVdssVpc"
+                    "Ref": "VdssVpc"
                 },
                 "Tags": [
                     {
@@ -245,7 +245,7 @@
                     {
                         "Key": "Project",
                         "Value": {
-                            "Ref": "pProject"
+                            "Ref": "Project"
                         }
                     }
                 ]
@@ -254,22 +254,22 @@
                 "aws:cdk:path": "SccaVdssStack/rVdssInternalRouteTable"
             }
         },
-        "rVdssInternalRouteTableNatGwRoute": {
+        "VdssInternalRouteTableNatGwRoute": {
             "Type": "AWS::EC2::Route",
             "Properties": {
                 "RouteTableId": {
-                    "Ref": "rVdssInternalRouteTable"
+                    "Ref": "VdssInternalRouteTable"
                 },
                 "DestinationCidrBlock": "0.0.0.0/0",
                 "NatGatewayId": {
-                    "Ref": "rNatGateway"
+                    "Ref": "NatGateway"
                 }
             },
             "Metadata": {
                 "aws:cdk:path": "SccaVdssStack/rVdssDmz1RouteTableNatGwRoute"
             }
         },
-        "rVdssDmz1Subnet": {
+        "VdssDmz1Subnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
                 "CidrBlock": {
@@ -278,7 +278,7 @@
                         {
                             "Fn::Cidr": [
                                 {
-                                    "Ref": "pVdssVpcCidr"
+                                    "Ref": "VdssVpcCidr"
                                 },
                                 16,
                                 "8"
@@ -287,7 +287,7 @@
                     ]
                 },
                 "VpcId": {
-                    "Ref": "rVdssVpc"
+                    "Ref": "VdssVpc"
                 },
                 "AvailabilityZone": {
                     "Fn::Select": [
@@ -305,7 +305,7 @@
                     {
                         "Key": "Project",
                         "Value": {
-                            "Ref": "pProject"
+                            "Ref": "Project"
                         }
                     }
                 ]
@@ -314,11 +314,11 @@
                 "aws:cdk:path": "SccaVdssStack/rVdssDmz1Subnet"
             }
         },
-        "rVdssDmz1SubnetRouteTable": {
+        "VdssDmz1SubnetRouteTable": {
             "Type": "AWS::EC2::RouteTable",
             "Properties": {
                 "VpcId": {
-                    "Ref": "rVdssVpc"
+                    "Ref": "VdssVpc"
                 },
                 "Tags": [
                     {
@@ -328,7 +328,7 @@
                     {
                         "Key": "Project",
                         "Value": {
-                            "Ref": "pProject"
+                            "Ref": "Project"
                         }
                     }
                 ]
@@ -337,36 +337,36 @@
                 "aws:cdk:path": "SccaVdssStack/rVdssDmz1SubnetRouteTable"
             }
         },
-        "rVdssDmz1RouteTableNatGwRoute": {
+        "VdssDmz1RouteTableNatGwRoute": {
             "Type": "AWS::EC2::Route",
             "Properties": {
                 "RouteTableId": {
-                    "Ref": "rVdssDmz1SubnetRouteTable"
+                    "Ref": "VdssDmz1SubnetRouteTable"
                 },
                 "DestinationCidrBlock": "0.0.0.0/0",
                 "NatGatewayId": {
-                    "Ref": "rNatGateway"
+                    "Ref": "NatGateway"
                 }
             },
             "Metadata": {
                 "aws:cdk:path": "SccaVdssStack/rVdssDmz1RouteTableNatGwRoute"
             }
         },
-        "rVdssDmz1SubnetRouteTableAssociation": {
+        "VdssDmz1SubnetRouteTableAssociation": {
             "Type": "AWS::EC2::SubnetRouteTableAssociation",
             "Properties": {
                 "RouteTableId": {
-                    "Ref": "rVdssDmz1SubnetRouteTable"
+                    "Ref": "VdssDmz1SubnetRouteTable"
                 },
                 "SubnetId": {
-                    "Ref": "rVdssDmz1Subnet"
+                    "Ref": "VdssDmz1Subnet"
                 }
             },
             "Metadata": {
                 "aws:cdk:path": "SccaVdssStack/rVdssDmz1SubnetRouteTableAssociation"
             }
         },
-        "rVdssDmz2Subnet": {
+        "VdssDmz2Subnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
                 "CidrBlock": {
@@ -375,7 +375,7 @@
                         {
                             "Fn::Cidr": [
                                 {
-                                    "Ref": "pVdssVpcCidr"
+                                    "Ref": "VdssVpcCidr"
                                 },
                                 16,
                                 "8"
@@ -384,7 +384,7 @@
                     ]
                 },
                 "VpcId": {
-                    "Ref": "rVdssVpc"
+                    "Ref": "VdssVpc"
                 },
                 "AvailabilityZone": {
                     "Fn::Select": [
@@ -402,7 +402,7 @@
                     {
                         "Key": "Project",
                         "Value": {
-                            "Ref": "pProject"
+                            "Ref": "Project"
                         }
                     }
                 ]
@@ -411,11 +411,11 @@
                 "aws:cdk:path": "SccaVdssStack/rVdssDmz2Subnet"
             }
         },
-        "rVdssDmz2SubnetRouteTable": {
+        "VdssDmz2SubnetRouteTable": {
             "Type": "AWS::EC2::RouteTable",
             "Properties": {
                 "VpcId": {
-                    "Ref": "rVdssVpc"
+                    "Ref": "VdssVpc"
                 },
                 "Tags": [
                     {
@@ -425,7 +425,7 @@
                     {
                         "Key": "Project",
                         "Value": {
-                            "Ref": "pProject"
+                            "Ref": "Project"
                         }
                     }
                 ]
@@ -434,36 +434,36 @@
                 "aws:cdk:path": "SccaVdssStack/rVdssDmz2SubnetRouteTable"
             }
         },
-        "rVdssDmz2RouteTableNatGwRoute": {
+        "VdssDmz2RouteTableNatGwRoute": {
             "Type": "AWS::EC2::Route",
             "Properties": {
                 "RouteTableId": {
-                    "Ref": "rVdssDmz2SubnetRouteTable"
+                    "Ref": "VdssDmz2SubnetRouteTable"
                 },
                 "DestinationCidrBlock": "0.0.0.0/0",
                 "NatGatewayId": {
-                    "Ref": "rNatGateway"
+                    "Ref": "NatGateway"
                 }
             },
             "Metadata": {
                 "aws:cdk:path": "SccaVdssStack/rVdssDmz2RouteTableNatGwRoute"
             }
         },
-        "rVdssDmz2SubnetRouteTableAssociation": {
+        "VdssDmz2SubnetRouteTableAssociation": {
             "Type": "AWS::EC2::SubnetRouteTableAssociation",
             "Properties": {
                 "RouteTableId": {
-                    "Ref": "rVdssDmz2SubnetRouteTable"
+                    "Ref": "VdssDmz2SubnetRouteTable"
                 },
                 "SubnetId": {
-                    "Ref": "rVdssDmz2Subnet"
+                    "Ref": "VdssDmz2Subnet"
                 }
             },
             "Metadata": {
                 "aws:cdk:path": "SccaVdssStack/rVdssDmz2SubnetRouteTableAssociation"
             }
         },
-        "rVdssInsideSubnet": {
+        "VdssInsideSubnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
                 "CidrBlock": {
@@ -472,7 +472,7 @@
                         {
                             "Fn::Cidr": [
                                 {
-                                    "Ref": "pVdssVpcCidr"
+                                    "Ref": "VdssVpcCidr"
                                 },
                                 16,
                                 "8"
@@ -481,7 +481,7 @@
                     ]
                 },
                 "VpcId": {
-                    "Ref": "rVdssVpc"
+                    "Ref": "VdssVpc"
                 },
                 "AvailabilityZone": {
                     "Fn::Select": [
@@ -499,7 +499,7 @@
                     {
                         "Key": "Project",
                         "Value": {
-                            "Ref": "pProject"
+                            "Ref": "Project"
                         }
                     }
                 ]
@@ -508,25 +508,25 @@
                 "aws:cdk:path": "SccaVdssStack/rVdssInsideSubnet"
             }
         },
-        "rVdssInsideSubnetRouteTableAssociation": {
+        "VdssInsideSubnetRouteTableAssociation": {
             "Type": "AWS::EC2::SubnetRouteTableAssociation",
             "Properties": {
                 "RouteTableId": {
-                    "Ref": "rVdssInternalRouteTable"
+                    "Ref": "VdssInternalRouteTable"
                 },
                 "SubnetId": {
-                    "Ref": "rVdssInsideSubnet"
+                    "Ref": "VdssInsideSubnet"
                 }
             },
             "Metadata": {
                 "aws:cdk:path": "SccaVdssStack/rVdssInsideSubnetRouteTableAssociation"
             }
         },
-        "rVdssManagementRouteTable": {
+        "VdssManagementRouteTable": {
             "Type": "AWS::EC2::RouteTable",
             "Properties": {
                 "VpcId": {
-                    "Ref": "rVdssVpc"
+                    "Ref": "VdssVpc"
                 },
                 "Tags": [
                     {
@@ -536,7 +536,7 @@
                     {
                         "Key": "Project",
                         "Value": {
-                            "Ref": "pProject"
+                            "Ref": "Project"
                         }
                     }
                 ]
@@ -545,52 +545,52 @@
                 "aws:cdk:path": "SccaVdssStack/rVdssManagementRouteTable"
             }
         },
-        "rVdssManagementRouteTableIgwRoute": {
+        "VdssManagementRouteTableIgwRoute": {
             "Type": "AWS::EC2::Route",
             "Properties": {
                 "RouteTableId": {
-                    "Ref": "rVdssManagementRouteTable"
+                    "Ref": "VdssManagementRouteTable"
                 },
                 "DestinationCidrBlock": "0.0.0.0/0",
                 "GatewayId": {
-                    "Ref": "rVdssIgw"
+                    "Ref": "VdssIgw"
                 }
             },
             "Metadata": {
                 "aws:cdk:path": "SccaVdssStack/rVdssOutsideRouteTableIgwRoute"
             }
         },
-        "rVdssManagementRouteTableAppVpcRoute": {
+        "VdssManagementRouteTableAppVpcRoute": {
             "Type": "AWS::EC2::Route",
             "Properties": {
                 "RouteTableId": {
-                    "Ref": "rVdssManagementRouteTable"
+                    "Ref": "VdssManagementRouteTable"
                 },
-                "DestinationCidrBlock": { "Ref" : "pAppVpcCidr" },
+                "DestinationCidrBlock": { "Ref" : "AppVpcCidr" },
                 "GatewayId": {
-                    "Ref": "rVdssIgw"
+                    "Ref": "VdssIgw"
                 }
             },
             "Metadata": {
                 "aws:cdk:path": "SccaVdssStack/rVdssManagementRouteTableAppVpcRoute"
             }
         },
-        "rVdssManagementRouteTableFargateVpcRoute": {
+        "VdssManagementRouteTableFargateVpcRoute": {
             "Type": "AWS::EC2::Route",
             "Properties": {
                 "RouteTableId": {
-                    "Ref": "rVdssManagementRouteTable"
+                    "Ref": "VdssManagementRouteTable"
                 },
-                "DestinationCidrBlock": { "Ref" : "pFargateVpcCidr" },
+                "DestinationCidrBlock": { "Ref" : "FargateVpcCidr" },
                 "GatewayId": {
-                    "Ref": "rVdssIgw"
+                    "Ref": "VdssIgw"
                 }
             },
             "Metadata": {
                 "aws:cdk:path": "SccaVdssStack/rVdssManagementRouteTableFargateVpcRoute"
             }
         },
-        "rVdssManagementSubnet": {
+        "VdssManagementSubnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
                 "CidrBlock": {
@@ -599,7 +599,7 @@
                         {
                             "Fn::Cidr": [
                                 {
-                                    "Ref": "pVdssVpcCidr"
+                                    "Ref": "VdssVpcCidr"
                                 },
                                 16,
                                 "8"
@@ -608,7 +608,7 @@
                     ]
                 },
                 "VpcId": {
-                    "Ref": "rVdssVpc"
+                    "Ref": "VdssVpc"
                 },
                 "AvailabilityZone": {
                     "Fn::Select": [
@@ -626,7 +626,7 @@
                     {
                         "Key": "Project",
                         "Value": {
-                            "Ref": "pProject"
+                            "Ref": "Project"
                         }
                     }
                 ]
@@ -635,26 +635,26 @@
                 "aws:cdk:path": "SccaVdssStack/rVdssManagementSubnet"
             }
         },
-        "rVdssManagementSubnetRouteTableAssociation": {
+        "VdssManagementSubnetRouteTableAssociation": {
             "Type": "AWS::EC2::SubnetRouteTableAssociation",
             "Properties": {
                 "RouteTableId": {
-                    "Ref": "rVdssManagementRouteTable"
+                    "Ref": "VdssManagementRouteTable"
                 },
                 "SubnetId": {
-                    "Ref": "rVdssManagementSubnet"
+                    "Ref": "VdssManagementSubnet"
                 }
             },
             "Metadata": {
                 "aws:cdk:path": "SccaVdssStack/rVdssManagementSubnetRouteTableAssociation"
             }
         },
-        "rTransitGatewayAttachement": {
+        "TransitGatewayAttachement": {
             "Type": "AWS::EC2::TransitGatewayAttachment",
             "Properties": {
                 "SubnetIds": [
                     {
-                        "Ref": "rVdssInsideSubnet"
+                        "Ref": "VdssInsideSubnet"
                     }
                 ],
                 "TransitGatewayId": {
@@ -663,7 +663,7 @@
                             "",
                             [
                                 {
-                                    "Ref": "pTransitGatewayStackName"
+                                    "Ref": "TransitGatewayStackName"
                                 },
                                 "-SccaTgwId"
                             ]
@@ -671,7 +671,7 @@
                     }
                 },
                 "VpcId": {
-                    "Ref": "rVdssVpc"
+                    "Ref": "VdssVpc"
                 },
                 "Tags": [
                     {
@@ -681,7 +681,7 @@
                     {
                         "Key": "Project",
                         "Value": {
-                            "Ref": "pProject"
+                            "Ref": "Project"
                         }
                     }
                 ]
@@ -690,11 +690,11 @@
                 "aws:cdk:path": "SccaVdssStack/rTransitGatewayAttachement"
             }
         },
-        "rTransitGatewayRouteTableAssociation": {
+        "TransitGatewayRouteTableAssociation": {
             "Type": "AWS::EC2::TransitGatewayRouteTableAssociation",
             "Properties": {
                 "TransitGatewayAttachmentId": {
-                    "Ref": "rTransitGatewayAttachement"
+                    "Ref": "TransitGatewayAttachement"
                 },
                 "TransitGatewayRouteTableId": {
                     "Fn::ImportValue": {
@@ -702,7 +702,7 @@
                             "",
                             [
                                 {
-                                    "Ref": "pTransitGatewayStackName"
+                                    "Ref": "TransitGatewayStackName"
                                 },
                                 "-SccaMainTgwRouteTableId"
                             ]
@@ -714,11 +714,11 @@
                 "aws:cdk:path": "SccaVdssStack/rTransitGatewayRouteTableAssociation"
             }
         },
-        "rTransitGatewayRouteTablePropagation": {
+        "TransitGatewayRouteTablePropagation": {
             "Type": "AWS::EC2::TransitGatewayRouteTablePropagation",
             "Properties": {
                 "TransitGatewayAttachmentId": {
-                    "Ref": "rTransitGatewayAttachement"
+                    "Ref": "TransitGatewayAttachement"
                 },
                 "TransitGatewayRouteTableId": {
                     "Fn::ImportValue": {
@@ -726,7 +726,7 @@
                             "",
                             [
                                 {
-                                    "Ref": "pTransitGatewayStackName"
+                                    "Ref": "TransitGatewayStackName"
                                 },
                                 "-SccaMainTgwRouteTableId"
                             ]
@@ -738,7 +738,7 @@
                 "aws:cdk:path": "SccaVdssStack/rTransitGatewayRouteTablePropagation"
             }
         },
-        "rMainTransitGatewayRouteDefault": {
+        "MainTransitGatewayRouteDefault": {
             "Type": "AWS::EC2::TransitGatewayRoute",
             "Properties": {
                 "TransitGatewayRouteTableId": {
@@ -747,7 +747,7 @@
                             "",
                             [
                                 {
-                                    "Ref": "pTransitGatewayStackName"
+                                    "Ref": "TransitGatewayStackName"
                                 },
                                 "-SccaMainTgwRouteTableId"
                             ]
@@ -756,14 +756,14 @@
                 },
                 "DestinationCidrBlock": "0.0.0.0/0",
                 "TransitGatewayAttachmentId": {
-                    "Ref": "rTransitGatewayAttachement"
+                    "Ref": "TransitGatewayAttachement"
                 }
             },
             "Metadata": {
                 "aws:cdk:path": "SccaVdssStack/rMainTransitGatewayRouteDefault"
             }
         },
-        "rMainTransitGatewayRouteVdss": {
+        "MainTransitGatewayRouteVdss": {
             "Type": "AWS::EC2::TransitGatewayRoute",
             "Properties": {
                 "TransitGatewayRouteTableId": {
@@ -772,7 +772,7 @@
                             "",
                             [
                                 {
-                                    "Ref": "pTransitGatewayStackName"
+                                    "Ref": "TransitGatewayStackName"
                                 },
                                 "-SccaMainTgwRouteTableId"
                             ]
@@ -780,21 +780,21 @@
                     }
                 },
                 "DestinationCidrBlock": {
-                    "Ref": "pVdssVpcCidr"
+                    "Ref": "VdssVpcCidr"
                 },
                 "TransitGatewayAttachmentId": {
-                    "Ref": "rTransitGatewayAttachement"
+                    "Ref": "TransitGatewayAttachement"
                 }
             },
             "Metadata": {
                 "aws:cdk:path": "SccaVdssStack/rMainTransitGatewayRouteVdss"
             }
         },
-        "rInternalRoute10" : {
+        "InternalRoute10" : {
             "Type" : "AWS::EC2::Route",
-            "DependsOn" : "rTransitGatewayAttachement",
+            "DependsOn" : "TransitGatewayAttachement",
             "Properties" : {
-              "RouteTableId" : { "Ref" : "rVdssInternalRouteTable" },
+              "RouteTableId" : { "Ref" : "VdssInternalRouteTable" },
               "DestinationCidrBlock" : "10.0.0.0/8",
               "TransitGatewayId": {
                "Fn::ImportValue": {
@@ -802,7 +802,7 @@
                      "",
                      [
                          {
-                             "Ref": "pTransitGatewayStackName"
+                             "Ref": "TransitGatewayStackName"
                          },
                          "-SccaTgwId"
                      ]
@@ -811,11 +811,11 @@
              }
          }
         },
-        "rInternalRoute172" : {
+        "InternalRoute172" : {
             "Type" : "AWS::EC2::Route",
-            "DependsOn" : "rTransitGatewayAttachement",
+            "DependsOn" : "TransitGatewayAttachement",
             "Properties" : {
-              "RouteTableId" : { "Ref" : "rVdssInternalRouteTable" },
+              "RouteTableId" : { "Ref" : "VdssInternalRouteTable" },
               "DestinationCidrBlock" : "172.16.0.0/12",
               "TransitGatewayId": {
                "Fn::ImportValue": {
@@ -823,7 +823,7 @@
                      "",
                      [
                          {
-                             "Ref": "pTransitGatewayStackName"
+                             "Ref": "TransitGatewayStackName"
                          },
                          "-SccaTgwId"
                      ]
@@ -832,11 +832,11 @@
              }
          }
         },
-        "rInternalRoute192" : {
+        "InternalRoute192" : {
             "Type" : "AWS::EC2::Route",
-            "DependsOn" : "rTransitGatewayAttachement",
+            "DependsOn" : "TransitGatewayAttachement",
             "Properties" : {
-              "RouteTableId" : { "Ref" : "rVdssInternalRouteTable" },
+              "RouteTableId" : { "Ref" : "VdssInternalRouteTable" },
               "DestinationCidrBlock" : "192.168.0.0/16",
               "TransitGatewayId": {
                "Fn::ImportValue": {
@@ -844,7 +844,7 @@
                      "",
                      [
                          {
-                             "Ref": "pTransitGatewayStackName"
+                             "Ref": "TransitGatewayStackName"
                          },
                          "-SccaTgwId"
                      ]
@@ -853,19 +853,19 @@
              }
          }
         },
-        "rInternalAppVPC" : {
+        "InternalAppVPC" : {
             "Type" : "AWS::EC2::Route",
-            "DependsOn" : "rTransitGatewayAttachement",
+            "DependsOn" : "TransitGatewayAttachement",
             "Properties" : {
-              "RouteTableId" : { "Ref" : "rVdssInternalRouteTable" },
-              "DestinationCidrBlock" : { "Ref" : "pAppVpcCidr" },
+              "RouteTableId" : { "Ref" : "VdssInternalRouteTable" },
+              "DestinationCidrBlock" : { "Ref" : "AppVpcCidr" },
               "TransitGatewayId": {
                "Fn::ImportValue": {
                    "Fn::Join": [
                      "",
                      [
                          {
-                             "Ref": "pTransitGatewayStackName"
+                             "Ref": "TransitGatewayStackName"
                          },
                          "-SccaTgwId"
                      ]
@@ -874,19 +874,19 @@
              }
          }
         },
-        "rInternalFargateVPC" : {
+        "InternalFargateVPC" : {
             "Type" : "AWS::EC2::Route",
-            "DependsOn" : "rTransitGatewayAttachement",
+            "DependsOn" : "TransitGatewayAttachement",
             "Properties" : {
-              "RouteTableId" : { "Ref" : "rVdssInternalRouteTable" },
-              "DestinationCidrBlock" : { "Ref" : "pFargateVpcCidr" },
+              "RouteTableId" : { "Ref" : "VdssInternalRouteTable" },
+              "DestinationCidrBlock" : { "Ref" : "FargateVpcCidr" },
               "TransitGatewayId": {
                "Fn::ImportValue": {
                    "Fn::Join": [
                      "",
                      [
                          {
-                             "Ref": "pTransitGatewayStackName"
+                             "Ref": "TransitGatewayStackName"
                          },
                          "-SccaTgwId"
                      ]
@@ -922,7 +922,7 @@
                     {
                         "Fn::Cidr": [
                             {
-                                "Ref": "pVdssVpcCidr"
+                                "Ref": "VdssVpcCidr"
                             },
                             16,
                             "8"
@@ -951,7 +951,7 @@
                     {
                         "Fn::Cidr": [
                             {
-                                "Ref": "pVdssVpcCidr"
+                                "Ref": "VdssVpcCidr"
                             },
                             16,
                             "8"
@@ -980,7 +980,7 @@
                     {
                         "Fn::Cidr": [
                             {
-                                "Ref": "pVdssVpcCidr"
+                                "Ref": "VdssVpcCidr"
                             },
                             16,
                             "8"
@@ -1009,7 +1009,7 @@
                     {
                         "Fn::Cidr": [
                             {
-                                "Ref": "pVdssVpcCidr"
+                                "Ref": "VdssVpcCidr"
                             },
                             16,
                             "8"
@@ -1036,9 +1036,9 @@
                 "Fn::Join": [
                     ".",
                     [
-                        {"Fn::Select" : [ 0, { "Fn::Split": [ ".", { "Fn::Select" : [ 3, { "Fn::Cidr": [ { "Ref": "pVdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
-                        {"Fn::Select" : [ 1, { "Fn::Split": [ ".", { "Fn::Select" : [ 3, { "Fn::Cidr": [ { "Ref": "pVdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
-                        {"Fn::Select" : [ 2, { "Fn::Split": [ ".", { "Fn::Select" : [ 3, { "Fn::Cidr": [ { "Ref": "pVdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
+                        {"Fn::Select" : [ 0, { "Fn::Split": [ ".", { "Fn::Select" : [ 3, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
+                        {"Fn::Select" : [ 1, { "Fn::Split": [ ".", { "Fn::Select" : [ 3, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
+                        {"Fn::Select" : [ 2, { "Fn::Split": [ ".", { "Fn::Select" : [ 3, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
                         "1"
                     ]
                 ]
@@ -1062,9 +1062,9 @@
                 "Fn::Join": [
                     ".",
                     [
-                        {"Fn::Select" : [ 0, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "pVdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
-                        {"Fn::Select" : [ 1, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "pVdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
-                        {"Fn::Select" : [ 2, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "pVdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
+                        {"Fn::Select" : [ 0, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
+                        {"Fn::Select" : [ 1, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
+                        {"Fn::Select" : [ 2, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
                         "50"
                     ]
                 ]
@@ -1088,9 +1088,9 @@
                 "Fn::Join": [
                     ".",
                     [
-                        {"Fn::Select" : [ 0, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "pVdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
-                        {"Fn::Select" : [ 1, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "pVdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
-                        {"Fn::Select" : [ 2, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "pVdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
+                        {"Fn::Select" : [ 0, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
+                        {"Fn::Select" : [ 1, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
+                        {"Fn::Select" : [ 2, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
                         "50"
                     ]
                 ]
@@ -1114,9 +1114,9 @@
                 "Fn::Join": [
                     ".",
                     [
-                        {"Fn::Select" : [ 0, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "pVdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
-                        {"Fn::Select" : [ 1, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "pVdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
-                        {"Fn::Select" : [ 2, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "pVdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
+                        {"Fn::Select" : [ 0, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
+                        {"Fn::Select" : [ 1, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
+                        {"Fn::Select" : [ 2, { "Fn::Split": [ ".", { "Fn::Select" : [ 2, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
                         "10"
                     ]
                 ]
@@ -1140,9 +1140,9 @@
                 "Fn::Join": [
                     ".",
                     [
-                        {"Fn::Select" : [ 0, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "pVdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
-                        {"Fn::Select" : [ 1, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "pVdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
-                        {"Fn::Select" : [ 2, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "pVdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
+                        {"Fn::Select" : [ 0, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
+                        {"Fn::Select" : [ 1, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
+                        {"Fn::Select" : [ 2, { "Fn::Split": [ ".", { "Fn::Select" : [ 0, { "Fn::Cidr": [ { "Ref": "VdssVpcCidr" }, 16, "8" ] } ] } ] } ]},
                         "10"
                     ]
                 ]
@@ -1163,7 +1163,7 @@
         },
         "VdssVpcId": {
             "Value": {
-                "Ref": "rVdssVpc"
+                "Ref": "VdssVpc"
             },
             "Export": {
                 "Name": {
@@ -1181,7 +1181,7 @@
         },
         "VdssOutsideSubnetId": {
             "Value": {
-                "Ref": "rVdssOutsideSubnet"
+                "Ref": "VdssOutsideSubnet"
             },
             "Export": {
                 "Name": {
@@ -1199,7 +1199,7 @@
         },
         "VdssDmz1SubnetId": {
             "Value": {
-                "Ref": "rVdssDmz1Subnet"
+                "Ref": "VdssDmz1Subnet"
             },
             "Export": {
                 "Name": {
@@ -1217,7 +1217,7 @@
         },
         "VdssDmz2SubnetId": {
             "Value": {
-                "Ref": "rVdssDmz2Subnet"
+                "Ref": "VdssDmz2Subnet"
             },
             "Export": {
                 "Name": {
@@ -1235,7 +1235,7 @@
         },
         "VdssInsideSubnetId": {
             "Value": {
-                "Ref": "rVdssInsideSubnet"
+                "Ref": "VdssInsideSubnet"
             },
             "Export": {
                 "Name": {
@@ -1253,7 +1253,7 @@
         },
         "VdssManagementSubnetId": {
             "Value": {
-                "Ref": "rVdssManagementSubnet"
+                "Ref": "VdssManagementSubnet"
             },
             "Export": {
                 "Name": {
@@ -1271,7 +1271,7 @@
         },
         "VdssOutsideRouteTable": {
             "Value": {
-                "Ref": "rVdssOutsideRouteTable"
+                "Ref": "VdssOutsideRouteTable"
             },
             "Export": {
                 "Name": {
@@ -1289,7 +1289,7 @@
         },
         "VdssDmz1SubnetRouteTable": {
             "Value": {
-                "Ref": "rVdssDmz1SubnetRouteTable"
+                "Ref": "VdssDmz1SubnetRouteTable"
             },
             "Export": {
                 "Name": {
@@ -1307,7 +1307,7 @@
         },
         "VdssDmz2SubnetRouteTable": {
             "Value": {
-                "Ref": "rVdssDmz2SubnetRouteTable"
+                "Ref": "VdssDmz2SubnetRouteTable"
             },
             "Export": {
                 "Name": {
@@ -1325,7 +1325,7 @@
         },
         "VdssInternalRouteTable": {
             "Value": {
-                "Ref": "rVdssInternalRouteTable"
+                "Ref": "VdssInternalRouteTable"
             },
             "Export": {
                 "Name": {

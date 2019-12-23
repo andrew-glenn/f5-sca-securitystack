@@ -1,6 +1,6 @@
 {
     "Resources": {
-      "rSccaTgw": {
+      "SccaTgw": {
         "Type": "AWS::EC2::TransitGateway",
         "Properties": {
           "DefaultRouteTableAssociation": "disable",
@@ -16,11 +16,11 @@
           "aws:cdk:path": "sccaTgwStack/rSccaTgw"
         }
       },
-      "rSccaMainTgwRouteTable": {
+      "SccaMainTgwRouteTable": {
         "Type": "AWS::EC2::TransitGatewayRouteTable",
         "Properties": {
           "TransitGatewayId": {
-            "Ref": "rSccaTgw"
+            "Ref": "SccaTgw"
           },
           "Tags": [
             {
@@ -45,7 +45,7 @@
       },
       "SccaTgwId": {
         "Value": {
-          "Ref": "rSccaTgw"
+          "Ref": "SccaTgw"
         },
         "Export": {
           "Name" : {"Fn::Sub": "${AWS::StackName}-SccaTgwId" }
@@ -53,7 +53,7 @@
       },
       "SccaMainTgwRouteTableId": {
         "Value": {
-          "Ref": "rSccaMainTgwRouteTable"
+          "Ref": "SccaMainTgwRouteTable"
         },
         "Export": {
           "Name" : {"Fn::Sub": "${AWS::StackName}-SccaMainTgwRouteTableId" }

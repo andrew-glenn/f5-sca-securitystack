@@ -2,160 +2,160 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
     "Parameters": {
-        "pVpcStackName": {
+        "VpcStackName": {
             "Type": "String",
             "Default": "SCCA-Demo",
             "Description": "VPC Stack used for referencing exported resources"
         },
-        "pIPSStackName": {
+        "IPSStackName": {
             "Type": "String",
             "Default": "IPSStack",
             "Description": "BIGIP Stack used for referencing exported resources"
             },
-        "pBigIPStackNameTier1": {
+        "BigIPStackNameTier1": {
             "Type": "String",
             "Default": "BIGIPStackTier1",
             "Description": "BIGIP Stack used for referencing exported resources"
             },
-        "pBigIPStackNameTier2": {
+        "BigIPStackNameTier2": {
             "Type": "String",
             "Default": "BIGIPStackTier2",
             "Description": "BIGIP Stack used for referencing exported resources"
             }
     },
 "Resources": {
-  "rTier1InboundRoute1": {
+  "Tier1InboundRoute1": {
     "Type": "AWS::EC2::Route",
     "Properties": {
       "RouteTableId": {
         "Fn::ImportValue": {
-            "Fn::Sub": "${pVpcStackName}-VdssOutsideRouteTable"
+            "Fn::Sub": "${VpcStackName}-VdssOutsideRouteTable"
         }
         },
        "DestinationCidrBlock": "10.0.0.0/8",
        "NetworkInterfaceId": {
         "Fn::ImportValue": {
-        "Fn::Sub": "${pBigIPStackNameTier1}-Bigip2ExternalInterface" }
+        "Fn::Sub": "${BigIPStackNameTier1}-Bigip2ExternalInterface" }
         }
        }
     },
-  "rTier1InboundRoute2": {
+  "Tier1InboundRoute2": {
     "Type": "AWS::EC2::Route",
     "Properties": {
         "RouteTableId": {
             "Fn::ImportValue": {
-                "Fn::Sub": "${pVpcStackName}-VdssOutsideRouteTable"
-            }   
+                "Fn::Sub": "${VpcStackName}-VdssOutsideRouteTable"
+            }
         },
        "DestinationCidrBlock": "172.16.0.0/12",
        "NetworkInterfaceId": {
        "Fn::ImportValue": {
-        "Fn::Sub": "${pBigIPStackNameTier1}-Bigip2ExternalInterface" }
+        "Fn::Sub": "${BigIPStackNameTier1}-Bigip2ExternalInterface" }
         }
        }
     },
-  "rTier1InboundRoute3": {
+  "Tier1InboundRoute3": {
     "Type": "AWS::EC2::Route",
     "Properties": {
         "RouteTableId": {
             "Fn::ImportValue": {
-                "Fn::Sub": "${pVpcStackName}-VdssOutsideRouteTable"
-            }   
+                "Fn::Sub": "${VpcStackName}-VdssOutsideRouteTable"
+            }
         },
        "DestinationCidrBlock": "192.168.0.0/16",
        "NetworkInterfaceId": {
        "Fn::ImportValue": {
-        "Fn::Sub": "${pBigIPStackNameTier1}-Bigip2ExternalInterface" }
+        "Fn::Sub": "${BigIPStackNameTier1}-Bigip2ExternalInterface" }
         }
        }
     },
-  "rTier1InboundRoute4": {
+  "Tier1InboundRoute4": {
     "Type": "AWS::EC2::Route",
     "Properties": {
         "RouteTableId": {
         "Fn::ImportValue": {
-            "Fn::Sub": "${pVpcStackName}-VdssDmz1SubnetRouteTable"
+            "Fn::Sub": "${VpcStackName}-VdssDmz1SubnetRouteTable"
         }
         },
         "DestinationCidrBlock": "10.0.0.0/8",
         "NetworkInterfaceId": {
         "Fn::ImportValue": {
-         "Fn::Sub": "${pIPSStackName}-IpsExternalInterface" }
+         "Fn::Sub": "${IPSStackName}-IpsExternalInterface" }
          }
        }
     },
-  "rTier1InboundRoute5": {
+  "Tier1InboundRoute5": {
     "Type": "AWS::EC2::Route",
     "Properties": {
         "RouteTableId": {
             "Fn::ImportValue": {
-                "Fn::Sub": "${pVpcStackName}-VdssDmz1SubnetRouteTable"
-            }   
+                "Fn::Sub": "${VpcStackName}-VdssDmz1SubnetRouteTable"
+            }
         },
         "DestinationCidrBlock": "172.16.0.0/12",
         "NetworkInterfaceId": {
         "Fn::ImportValue": {
-            "Fn::Sub": "${pIPSStackName}-IpsExternalInterface" }
+            "Fn::Sub": "${IPSStackName}-IpsExternalInterface" }
         }
         }
     },
-  "rTier1InboundRoute6": {
+  "Tier1InboundRoute6": {
     "Type": "AWS::EC2::Route",
     "Properties": {
         "RouteTableId": {
             "Fn::ImportValue": {
-                "Fn::Sub": "${pVpcStackName}-VdssDmz1SubnetRouteTable"
-            }   
+                "Fn::Sub": "${VpcStackName}-VdssDmz1SubnetRouteTable"
+            }
         },
         "DestinationCidrBlock": "192.168.0.0/16",
         "NetworkInterfaceId": {
         "Fn::ImportValue": {
-            "Fn::Sub": "${pIPSStackName}-IpsExternalInterface" }
+            "Fn::Sub": "${IPSStackName}-IpsExternalInterface" }
         }
         }
     },
-    "rTier2InboundRoute1": {
+    "Tier2InboundRoute1": {
         "Type": "AWS::EC2::Route",
         "Properties": {
           "RouteTableId": {
             "Fn::ImportValue": {
-                "Fn::Sub": "${pVpcStackName}-VdssDmz2SubnetRouteTable"
+                "Fn::Sub": "${VpcStackName}-VdssDmz2SubnetRouteTable"
             }
             },
            "DestinationCidrBlock": "10.0.0.0/8",
            "NetworkInterfaceId": {
            "Fn::ImportValue": {
-            "Fn::Sub": "${pBigIPStackNameTier2}-Bigip2ExternalInterface" }
+            "Fn::Sub": "${BigIPStackNameTier2}-Bigip2ExternalInterface" }
             }
            }
         },
-      "rTier2InboundRoute2": {
+      "Tier2InboundRoute2": {
         "Type": "AWS::EC2::Route",
         "Properties": {
             "RouteTableId": {
              "Fn::ImportValue": {
-                "Fn::Sub": "${pVpcStackName}-VdssDmz2SubnetRouteTable"
-             } 
+                "Fn::Sub": "${VpcStackName}-VdssDmz2SubnetRouteTable"
+             }
             },
            "DestinationCidrBlock": "172.16.0.0/12",
            "NetworkInterfaceId": {
            "Fn::ImportValue": {
-            "Fn::Sub": "${pBigIPStackNameTier2}-Bigip2ExternalInterface" }
+            "Fn::Sub": "${BigIPStackNameTier2}-Bigip2ExternalInterface" }
             }
            }
         },
-      "rTier2InboundRoute3": {
+      "Tier2InboundRoute3": {
         "Type": "AWS::EC2::Route",
         "Properties": {
             "RouteTableId": {
             "Fn::ImportValue": {
-                "Fn::Sub": "${pVpcStackName}-VdssDmz2SubnetRouteTable"
-                }  
+                "Fn::Sub": "${VpcStackName}-VdssDmz2SubnetRouteTable"
+                }
             },
            "DestinationCidrBlock": "192.168.0.0/16",
            "NetworkInterfaceId": {
            "Fn::ImportValue": {
-            "Fn::Sub": "${pBigIPStackNameTier2}-Bigip2ExternalInterface" }
+            "Fn::Sub": "${BigIPStackNameTier2}-Bigip2ExternalInterface" }
             }
            }
         },
@@ -180,7 +180,7 @@
                {
                 "Action": [
                  "ec2:AssignPrivateIpAddresses",
-                 "ec2:UnassignPrivateIpAddresses", 
+                 "ec2:UnassignPrivateIpAddresses",
                  "ec2:ReplaceRoute",
                  "sts:AssumeRole"
                 ],
@@ -209,11 +209,11 @@
       "dest_cidr_block" : "0.0.0.0/0",
       "interface_id" : {
         "Fn::ImportValue": {
-         "Fn::Sub": "${pIPSStackName}-IpsInternalInterface" }
+         "Fn::Sub": "${IPSStackName}-IpsInternalInterface" }
          },
       "routetable_id" : {
         "Fn::ImportValue": {
-         "Fn::Sub": "${pVpcStackName}-VdssDmz2SubnetRouteTable" }
+         "Fn::Sub": "${VpcStackName}-VdssDmz2SubnetRouteTable" }
          }
     }
   },
@@ -224,30 +224,30 @@
       "ServiceToken": { "Fn::GetAtt" : ["LambdaReplaceRouteActiveDevice", "Arn"] },
       "mgmt_ip1" : {
         "Fn::ImportValue": {
-        "Fn::Sub": "${pBigIPStackNameTier1}-Bigip1ManagementEipAddress" 
+        "Fn::Sub": "${BigIPStackNameTier1}-Bigip1ManagementEipAddress"
         }
         },
       "mgmt_ip2" : {
         "Fn::ImportValue": {
-        "Fn::Sub": "${pBigIPStackNameTier1}-Bigip2ManagementEipAddress" 
+        "Fn::Sub": "${BigIPStackNameTier1}-Bigip2ManagementEipAddress"
         }
         },
       "bucket" : {
         "Fn::ImportValue": {
-         "Fn::Sub": "${pBigIPStackNameTier1}-S3BucketName" }
+         "Fn::Sub": "${BigIPStackNameTier1}-S3BucketName" }
          },
          "dest_cidr_block" : "0.0.0.0/0",
          "interface_id1" : {
            "Fn::ImportValue": {
-            "Fn::Sub": "${pBigIPStackNameTier1}-Bigip1InternalInterface" }
+            "Fn::Sub": "${BigIPStackNameTier1}-Bigip1InternalInterface" }
             },
         "interface_id2" : {
           "Fn::ImportValue": {
-            "Fn::Sub": "${pBigIPStackNameTier1}-Bigip2InternalInterface" }
+            "Fn::Sub": "${BigIPStackNameTier1}-Bigip2InternalInterface" }
             },
          "routetable_id" : {
            "Fn::ImportValue": {
-            "Fn::Sub": "${pVpcStackName}-VdssDmz1SubnetRouteTable" }
+            "Fn::Sub": "${VpcStackName}-VdssDmz1SubnetRouteTable" }
             }
     }
    },
@@ -258,30 +258,30 @@
       "ServiceToken": { "Fn::GetAtt" : ["LambdaReplaceRouteActiveDevice", "Arn"] },
       "mgmt_ip1" : {
         "Fn::ImportValue": {
-        "Fn::Sub": "${pBigIPStackNameTier2}-Bigip1ManagementEipAddress" 
+        "Fn::Sub": "${BigIPStackNameTier2}-Bigip1ManagementEipAddress"
         }
         },
       "mgmt_ip2" : {
         "Fn::ImportValue": {
-        "Fn::Sub": "${pBigIPStackNameTier2}-Bigip2ManagementEipAddress" 
+        "Fn::Sub": "${BigIPStackNameTier2}-Bigip2ManagementEipAddress"
         }
         },
       "bucket" : {
         "Fn::ImportValue": {
-         "Fn::Sub": "${pBigIPStackNameTier2}-S3BucketName" }
+         "Fn::Sub": "${BigIPStackNameTier2}-S3BucketName" }
          },
          "dest_cidr_block" : "0.0.0.0/0",
          "interface_id1" : {
            "Fn::ImportValue": {
-            "Fn::Sub": "${pBigIPStackNameTier2}-Bigip1InternalInterface" }
+            "Fn::Sub": "${BigIPStackNameTier2}-Bigip1InternalInterface" }
             },
         "interface_id2" : {
           "Fn::ImportValue": {
-            "Fn::Sub": "${pBigIPStackNameTier2}-Bigip2InternalInterface" }
+            "Fn::Sub": "${BigIPStackNameTier2}-Bigip2InternalInterface" }
             },
          "routetable_id" : {
            "Fn::ImportValue": {
-            "Fn::Sub": "${pVpcStackName}-VdssInternalRouteTable" }
+            "Fn::Sub": "${VpcStackName}-VdssInternalRouteTable" }
             }
     }
    },
@@ -290,7 +290,7 @@
         "Properties": {
             "Handler": "index.lambda_handler",
             "Role": {
-                "Fn::GetAtt": [ 
+                "Fn::GetAtt": [
                     "IamRole",
                     "Arn" ]
                  },
@@ -334,7 +334,7 @@
         "Properties": {
             "Handler": "index.lambda_handler",
             "Role": {
-                "Fn::GetAtt": [ 
+                "Fn::GetAtt": [
                     "IamRole",
                     "Arn" ]
                  },
@@ -400,7 +400,7 @@
                     "    response = client.replace_route(DestinationCidrBlock=dest_cidr_block,NetworkInterfaceId=interface_id,RouteTableId=routetable_id)",
                     "",
                     "    print(responseData)",
-                    "", 
+                    "",
                     "    cfnresponse.send(event, context, cfnresponse.SUCCESS, response)",
                     "",
                     "   if event['RequestType'] == 'Delete':",
@@ -422,30 +422,30 @@
           "ServiceToken": { "Fn::GetAtt" : ["LambdaReassignPrivateIP", "Arn"] },
           "mgmt_ip1" : {
             "Fn::ImportValue": {
-              "Fn::Sub": "${pBigIPStackNameTier1}-Bigip1ManagementEipAddress" 
+              "Fn::Sub": "${BigIPStackNameTier1}-Bigip1ManagementEipAddress"
             }
           },
           "mgmt_ip2" : {
             "Fn::ImportValue": {
-            "Fn::Sub": "${pBigIPStackNameTier1}-Bigip2ManagementEipAddress" 
+            "Fn::Sub": "${BigIPStackNameTier1}-Bigip2ManagementEipAddress"
             }
           },
           "bucket" : {
             "Fn::ImportValue": {
-            "Fn::Sub": "${pBigIPStackNameTier1}-S3BucketName" }
+            "Fn::Sub": "${BigIPStackNameTier1}-S3BucketName" }
             },
           "dest_cidr_block" : "0.0.0.0/0",
           "interface_id1" : {
             "Fn::ImportValue": {
-              "Fn::Sub": "${pBigIPStackNameTier1}-Bigip1ExternalInterface" }
+              "Fn::Sub": "${BigIPStackNameTier1}-Bigip1ExternalInterface" }
           },
           "interface_id2" : {
             "Fn::ImportValue": {
-              "Fn::Sub": "${pBigIPStackNameTier1}-Bigip2ExternalInterface" }
+              "Fn::Sub": "${BigIPStackNameTier1}-Bigip2ExternalInterface" }
           },
           "private_ip" : {
           "Fn::ImportValue": {
-            "Fn::Sub": "${pVpcStackName}-ExternalTierVIP" }
+            "Fn::Sub": "${VpcStackName}-ExternalTierVIP" }
           }
         }
       },
@@ -454,7 +454,7 @@
         "Properties": {
             "Handler": "index.lambda_handler",
             "Role": {
-                "Fn::GetAtt": [ 
+                "Fn::GetAtt": [
                     "IamRole",
                     "Arn" ]
                  },
@@ -522,7 +522,7 @@
                     "    response = client.assign_private_ip_addresses(AllowReassignment=True,NetworkInterfaceId=interface_id,PrivateIpAddresses=[private_ip])",
                     "",
                     "    print(response)",
-                    "", 
+                    "",
                     "    cfnresponse.send(event, context, cfnresponse.SUCCESS, response)",
                     "",
                     "   if event['RequestType'] == 'Delete':",

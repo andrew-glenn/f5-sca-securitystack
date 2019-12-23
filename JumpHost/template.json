@@ -12,7 +12,7 @@
         "Default" : "t2.small",
         "AllowedValues" : [ "t1.micro", "t2.nano", "t2.micro", "t2.small", "t2.medium", "t2.large", "m1.small", "m1.medium", "m1.large", "m1.xlarge", "m2.xlarge", "m2.2xlarge", "m2.4xlarge", "m3.medium", "m3.large", "m3.xlarge", "m3.2xlarge", "m4.large", "m4.xlarge", "m4.2xlarge", "m4.4xlarge", "m4.10xlarge", "c1.medium", "c1.xlarge", "c3.large", "c3.xlarge", "c3.2xlarge", "c3.4xlarge", "c3.8xlarge", "c4.large", "c4.xlarge", "c4.2xlarge", "c4.4xlarge", "c4.8xlarge", "g2.2xlarge", "g2.8xlarge", "r3.large", "r3.xlarge", "r3.2xlarge", "r3.4xlarge", "r3.8xlarge", "i2.xlarge", "i2.2xlarge", "i2.4xlarge", "i2.8xlarge", "d2.xlarge", "d2.2xlarge", "d2.4xlarge", "d2.8xlarge", "hi1.4xlarge", "hs1.8xlarge", "cr1.8xlarge", "cc2.8xlarge", "cg1.4xlarge"],
         "ConstraintDescription" : "must be a valid EC2 instance type."
-      },  
+      },
       "SSHLocation" : {
         "Description" : "The IP address range that can be used to SSH to the EC2 instances",
         "Type": "String",
@@ -42,7 +42,7 @@
         "us-gov-west-1"    : {"Ubuntu16" : "ami-939412f2"},
         "us-gov-east-1"    : {"Ubuntu16" : "ami-9350b7e2"}
         }
-    },         
+    },
    "Resources" : {
       "JumpHostNetworkInterface": {
         "Properties": {
@@ -54,7 +54,7 @@
          ],
          "SourceDestCheck": false,
          "SubnetId": {
-            "Fn::ImportValue" : {"Fn::Sub": "${pVpcStackName}-VdssManagementSubnetId" }
+            "Fn::ImportValue" : {"Fn::Sub": "${VpcStackName}-VdssManagementSubnetId" }
          }
         },
         "Type": "AWS::EC2::NetworkInterface"
@@ -124,12 +124,12 @@
                               "Description=cfn-hup daemon\n\n",
                               "[Service]\n",
                               "Type=simple\n",
-                              "ExecStart=/opt/aws/bin/cfn-hup\n", 
+                              "ExecStart=/opt/aws/bin/cfn-hup\n",
                               "Restart=always\n\n",
                               "[Install]\n",
                               "WantedBy=multi-user.target"]]}
                                }
-                    },  
+                    },
               "commands" : {
                     "01enable_cfn_hup" : {
                         "command" : "systemctl enable cfn-hup.service"
@@ -182,7 +182,7 @@
                "         --resource EC2Instance ",
                "         --configsets full_install ",
                "         --region ", { "Ref" : "AWS::Region" }, "\n",
-  
+
                "/opt/aws/bin/cfn-signal -e $? ",
                "         --stack ", { "Ref" : "AWS::StackName" },
                "         --resource EC2Instance ",
@@ -211,11 +211,11 @@
             "IpProtocol": "tcp",
             "ToPort": "22"
            },
-           { 
-            "IpProtocol" : "icmp", 
-            "FromPort" : 8, 
-            "ToPort" : -1, 
-            "CidrIp" : "0.0.0.0/0" 
+           {
+            "IpProtocol" : "icmp",
+            "FromPort" : 8,
+            "ToPort" : -1,
+            "CidrIp" : "0.0.0.0/0"
            }
          ],
          "SecurityGroupEgress": [
@@ -231,11 +231,11 @@
              "IpProtocol": "tcp",
              "ToPort": "443"
             },
-             { 
-              "IpProtocol" : "icmp", 
-              "FromPort" : 8, 
-              "ToPort" : -1, 
-              "CidrIp" : "0.0.0.0/0" 
+             {
+              "IpProtocol" : "icmp",
+              "FromPort" : 8,
+              "ToPort" : -1,
+              "CidrIp" : "0.0.0.0/0"
              }
            ],
          "Tags": [
@@ -255,7 +255,7 @@
           }
          ],
          "VpcId": {
-          "Fn::ImportValue" : {"Fn::Sub": "${pVpcStackName}-VdssVpcId" }
+          "Fn::ImportValue" : {"Fn::Sub": "${VpcStackName}-VdssVpcId" }
          }
         },
         "Type": "AWS::EC2::SecurityGroup"

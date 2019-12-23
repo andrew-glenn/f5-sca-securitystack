@@ -7,11 +7,11 @@
             "default": "ENVIRONMENT OPTIONS"
            },
            "Parameters": [
-            "pBaselineCompliance",
+            "BaselineCompliance",
             "DeployDemoApps",
-            "pVdssVpcCidr",
-            "pAppVpcCidr",
-            "pFargateVpcCidr"
+            "VdssVpcCidr",
+            "AppVpcCidr",
+            "FargateVpcCidr"
            ]
           },
           {
@@ -40,14 +40,14 @@
             "default": "OTHER"
            },
            "Parameters": [
-            "pProject",
-            "pQuickstartS3BucketName",
-            "pQuickstartS3KeyPrefix"
+            "Project",
+            "QuickstartS3BucketName",
+            "QuickstartS3KeyPrefix"
            ]
           }
          ],
          "ParameterLabels": {
-          "pBaselineCompliance": {
+          "BaselineCompliance": {
             "default": "Baseline Compliance"
            },
            "instanceTypeExternalTier": {
@@ -74,22 +74,22 @@
           "DeployDemoApps": {
            "default": "Deploy Demo Apps"
           },
-          "pVdssVpcCidr": {
+          "VdssVpcCidr": {
            "default": "Security VPC CIDR"
           },
-          "pAppVpcCidr": {
+          "AppVpcCidr": {
             "default": "Demo App 1 VPC CIDR"
            },
-          "pFargateVpcCidr": {
+          "FargateVpcCidr": {
             "default": "Demo App 2 VPC CIDR"
           },
-          "pProject": {
+          "Project": {
             "default": "Project Tag"
            },
-          "pQuickstartS3BucketName": {
+          "QuickstartS3BucketName": {
             "default": "S3 Bucket Name"
            },
-          "pQuickstartS3KeyPrefix": {
+          "QuickstartS3KeyPrefix": {
             "default": "S3 Key Prefix"
           }
          }
@@ -203,21 +203,21 @@
         "Description": "Big-IP Tier 2: Size of the F5 BIG-IP Virtual Instance",
         "Type": "String"
        },
-    "pQuickstartS3BucketName": {
+    "QuickstartS3BucketName": {
       "Type": "String",
       "Default": "f5-sca-securitystack",
       "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-.]*[0-9a-zA-Z])*$",
       "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-).",
       "Description": "S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
     },
-    "pQuickstartS3KeyPrefix": {
+    "QuickstartS3KeyPrefix": {
       "Type": "String",
       "Default": "master",
       "AllowedPattern": "^[0-9a-zA-Z-/]*$",
       "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
       "Description": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/)."
     },
-    "pProject": {
+    "Project": {
       "Type": "String",
       "Default": "quickstart-f5-scca-security",
       "Description": "Project name to use for tagging"
@@ -234,7 +234,7 @@
           "Type": "String",
           "Default": "Yes"
     },
-    "pVdssVpcCidr": {
+    "VdssVpcCidr": {
       "Type": "String",
       "Default": "10.0.0.0/16",
       "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
@@ -243,7 +243,7 @@
       "MaxLength": 18,
       "MinLength": 9
     },
-    "pAppVpcCidr": {
+    "AppVpcCidr": {
       "Type": "String",
       "Default": "10.1.0.0/16",
       "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
@@ -252,7 +252,7 @@
       "MaxLength": 18,
       "MinLength": 9
     },
-    "pFargateVpcCidr": {
+    "FargateVpcCidr": {
       "Type": "String",
       "Default": "10.2.0.0/16",
       "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
@@ -293,7 +293,7 @@
       "MinLength": "1",
       "Type": "String"
     },
-    "pBaselineCompliance": {
+    "BaselineCompliance": {
       "AllowedValues": [
         "Enterprise",
         "SCCA"
@@ -320,7 +320,7 @@
           {
             "Key": "Project",
             "Value": {
-              "Ref": "pProject"
+              "Ref": "Project"
             }
           }
         ]
@@ -337,27 +337,27 @@
           "Fn::Sub": "https://${pQuickstartS3BucketName}.s3.amazonaws.com/${pQuickstartS3KeyPrefix}/VPC/aws-scca-vdss-stack-singleAZ.json"
         },
         "Parameters": {
-          "pTransitGatewayStackName": {
+          "TransitGatewayStackName": {
             "Fn::GetAtt": [
               "TransitGatewayStack",
               "Outputs.StackName"
             ]
           },
-          "pVdssVpcCidr": {
-            "Ref": "pVdssVpcCidr"
+          "VdssVpcCidr": {
+            "Ref": "VdssVpcCidr"
           },
-          "pAppVpcCidr": {
-            "Ref": "pAppVpcCidr"
+          "AppVpcCidr": {
+            "Ref": "AppVpcCidr"
           },
-          "pFargateVpcCidr": {
-            "Ref": "pFargateVpcCidr"
+          "FargateVpcCidr": {
+            "Ref": "FargateVpcCidr"
           }
         },
         "Tags": [
           {
             "Key": "Project",
             "Value": {
-              "Ref": "pProject"
+              "Ref": "Project"
             }
           }
         ]
@@ -375,27 +375,27 @@
           "Fn::Sub": "https://${pQuickstartS3BucketName}.s3.amazonaws.com/${pQuickstartS3KeyPrefix}/VPC/aws-scca-app-vpc.json"
         },
         "Parameters": {
-          "pTransitGatewayStackName": {
+          "TransitGatewayStackName": {
             "Fn::GetAtt": [
               "TransitGatewayStack",
               "Outputs.StackName"
             ]
           },
-          "pVdssVpcCidr": {
-            "Ref": "pVdssVpcCidr"
+          "VdssVpcCidr": {
+            "Ref": "VdssVpcCidr"
           },
-          "pAppVpcCidr": {
-            "Ref": "pAppVpcCidr"
+          "AppVpcCidr": {
+            "Ref": "AppVpcCidr"
           },
-          "pFargateVpcCidr": {
-            "Ref": "pFargateVpcCidr"
+          "FargateVpcCidr": {
+            "Ref": "FargateVpcCidr"
           }
         },
         "Tags": [
           {
             "Key": "Project",
             "Value": {
-              "Ref": "pProject"
+              "Ref": "Project"
             }
           }
         ]
@@ -435,7 +435,7 @@
             {
               "Key": "Project",
               "Value": {
-                "Ref": "pProject"
+                "Ref": "Project"
               }
             }
           ]
@@ -453,27 +453,27 @@
           "Fn::Sub": "https://${pQuickstartS3BucketName}.s3.amazonaws.com/${pQuickstartS3KeyPrefix}/VPC/aws-scca-fargate-vpc.json"
         },
         "Parameters": {
-          "pTransitGatewayStackName": {
+          "TransitGatewayStackName": {
             "Fn::GetAtt": [
               "TransitGatewayStack",
               "Outputs.StackName"
             ]
           },
-          "pVdssVpcCidr": {
-            "Ref": "pVdssVpcCidr"
+          "VdssVpcCidr": {
+            "Ref": "VdssVpcCidr"
           },
-          "pAppVpcCidr": {
-            "Ref": "pAppVpcCidr"
+          "AppVpcCidr": {
+            "Ref": "AppVpcCidr"
           },
-          "pFargateVpcCidr": {
-            "Ref": "pFargateVpcCidr"
+          "FargateVpcCidr": {
+            "Ref": "FargateVpcCidr"
           }
         },
         "Tags": [
           {
             "Key": "Project",
             "Value": {
-              "Ref": "pProject"
+              "Ref": "Project"
             }
           }
         ]
@@ -490,7 +490,7 @@
           "Fn::Sub": "https://${pQuickstartS3BucketName}.s3.amazonaws.com/${pQuickstartS3KeyPrefix}/JumpHost/template.json"
         },
         "Parameters": {
-          "pVpcStackName": {
+          "VpcStackName": {
             "Fn::GetAtt": [
               "VdssStack",
               "Outputs.StackName"
@@ -505,7 +505,7 @@
           {
             "Key": "Project",
             "Value": {
-              "Ref": "pProject"
+              "Ref": "Project"
             }
           }
         ]
@@ -522,10 +522,10 @@
           "Fn::Sub": "https://${pQuickstartS3BucketName}.s3.amazonaws.com/${pQuickstartS3KeyPrefix}/BIG-IP/template.json"
         },
         "Parameters": {
-          "pBaselineCompliance": {
-            "Ref": "pBaselineCompliance"
+          "BaselineCompliance": {
+            "Ref": "BaselineCompliance"
           },
-          "pVpcStackName": {
+          "VpcStackName": {
             "Fn::GetAtt": [
               "VdssStack",
               "Outputs.StackName"
@@ -538,7 +538,7 @@
           "licenseKey2": {
             "Ref": "licenseKey2"
           },
-          "pTier": "Tier1",
+          "Tier": "Tier1",
           "internalRoutesGWIP": {
             "Fn::GetAtt": [
               "IPSStack",
@@ -581,13 +581,13 @@
            },
          "as3InstallFileUrl": {
             "Fn::Sub": "https://${pQuickstartS3BucketName}.s3.amazonaws.com/${pQuickstartS3KeyPrefix}/BIG-IP/atc/as3/install-rpm.sh"
-           } 
+           }
         },
         "Tags": [
           {
             "Key": "Project",
             "Value": {
-              "Ref": "pProject"
+              "Ref": "Project"
             }
           }
         ]
@@ -604,15 +604,15 @@
           "Fn::Sub": "https://${pQuickstartS3BucketName}.s3.amazonaws.com/${pQuickstartS3KeyPrefix}/BIG-IP/template.json"
 
         },
-        "Parameters": { 
-          "pVpcStackName": {
+        "Parameters": {
+          "VpcStackName": {
             "Fn::GetAtt": [
               "VdssStack",
               "Outputs.StackName"
             ]
           },
-          "pBaselineCompliance": {
-            "Ref": "pBaselineCompliance"
+          "BaselineCompliance": {
+            "Ref": "BaselineCompliance"
           },
           "restrictedSrcAddressApp": "0.0.0.0/0",
           "licenseKey1": {
@@ -621,7 +621,7 @@
           "licenseKey2": {
             "Ref": "licenseKey4"
           },
-          "pTier": "Tier2",
+          "Tier": "Tier2",
           "internalRoutesGWIP": {
             "Fn::GetAtt": [
               "VdssStack",
@@ -664,13 +664,13 @@
            },
          "as3InstallFileUrl": {
             "Fn::Sub": "https://${pQuickstartS3BucketName}.s3.amazonaws.com/${pQuickstartS3KeyPrefix}/BIG-IP/atc/as3/install-rpm.sh"
-           } 
+           }
         },
         "Tags": [
           {
             "Key": "Project",
             "Value": {
-              "Ref": "pProject"
+              "Ref": "Project"
             }
           }
         ]
@@ -687,7 +687,7 @@
           "Fn::Sub": "https://${pQuickstartS3BucketName}.s3.amazonaws.com/${pQuickstartS3KeyPrefix}/IPS/template.json"
         },
         "Parameters": {
-          "pVpcStackName": {
+          "VpcStackName": {
             "Fn::GetAtt": [
               "VdssStack",
               "Outputs.StackName"
@@ -702,7 +702,7 @@
           {
             "Key": "Project",
             "Value": {
-              "Ref": "pProject"
+              "Ref": "Project"
             }
           }
         ]
@@ -718,25 +718,25 @@
           "Fn::Sub": "https://${pQuickstartS3BucketName}.s3.amazonaws.com/${pQuickstartS3KeyPrefix}/VPC/route-table-update-post-EC2-builds.json"
         },
         "Parameters": {
-          "pVpcStackName": {
+          "VpcStackName": {
             "Fn::GetAtt": [
               "VdssStack",
               "Outputs.StackName"
             ]
           },
-          "pIPSStackName": {
+          "IPSStackName": {
             "Fn::GetAtt": [
               "IPSStack",
               "Outputs.StackName"
             ]
           },
-          "pBigIPStackNameTier1": {
+          "BigIPStackNameTier1": {
             "Fn::GetAtt": [
               "F5ExternalTier",
               "Outputs.StackName"
             ]
           },
-          "pBigIPStackNameTier2": {
+          "BigIPStackNameTier2": {
             "Fn::GetAtt": [
               "F5InternalTier",
               "Outputs.StackName"
@@ -747,7 +747,7 @@
           {
             "Key": "Project",
             "Value": {
-              "Ref": "pProject"
+              "Ref": "Project"
             }
           }
         ]
@@ -763,21 +763,21 @@
           "Fn::Sub": "https://${pQuickstartS3BucketName}.s3.amazonaws.com/${pQuickstartS3KeyPrefix}/install_lambda.json"
         },
         "Parameters": {
-          "pPrefix": {
+          "Prefix": {
             "Fn::Sub": "${AWS::StackName}"
           },
-          "pLambdaS3BucketName": {
-            "Ref": "pQuickstartS3BucketName"
+          "LambdaS3BucketName": {
+            "Ref": "QuickstartS3BucketName"
           },
-          "pLambdaS3KeyPrefix": {
-            "Ref": "pQuickstartS3KeyPrefix"
+          "LambdaS3KeyPrefix": {
+            "Ref": "QuickstartS3KeyPrefix"
           }
         },
         "Tags": [
           {
             "Key": "Project",
             "Value": {
-              "Ref": "pProject"
+              "Ref": "Project"
             }
           }
         ]
@@ -793,23 +793,23 @@
           "Fn::Sub": "https://${pQuickstartS3BucketName}.s3.amazonaws.com/${pQuickstartS3KeyPrefix}/ha_iapp.json"
         },
         "Parameters": {
-          "pPrefix": {
+          "Prefix": {
             "Fn::Sub": "${AWS::StackName}"
           },
-          "pBigIPMgmt": {
+          "BigIPMgmt": {
             "Fn::GetAtt": [
               "F5ExternalTier",
               "Outputs.Bigip1ManagementEipAddress"
             ]
           },
-          "pBigIPRouteTableId": {
+          "BigIPRouteTableId": {
             "Fn::GetAtt": [
               "VdssStack",
               "Outputs.VdssDmz1SubnetRouteTable"
             ]
           },
-          "pBigIPInterface": "/Common/internal",
-          "pBigIPS3Bucket": {
+          "BigIPInterface": "/Common/internal",
+          "BigIPS3Bucket": {
             "Fn::GetAtt": [
               "F5ExternalTier",
               "Outputs.S3BucketName"
@@ -820,7 +820,7 @@
           {
             "Key": "Project",
             "Value": {
-              "Ref": "pProject"
+              "Ref": "Project"
             }
           }
         ]
@@ -836,23 +836,23 @@
           "Fn::Sub": "https://${pQuickstartS3BucketName}.s3.amazonaws.com/${pQuickstartS3KeyPrefix}/ha_iapp.json"
         },
         "Parameters": {
-          "pPrefix": {
+          "Prefix": {
             "Fn::Sub": "${AWS::StackName}"
           },
-          "pBigIPMgmt": {
+          "BigIPMgmt": {
             "Fn::GetAtt": [
               "F5InternalTier",
               "Outputs.Bigip1ManagementEipAddress"
             ]
           },
-          "pBigIPRouteTableId": {
+          "BigIPRouteTableId": {
             "Fn::GetAtt": [
               "VdssStack",
               "Outputs.VdssDmz2SubnetRouteTable"
             ]
           },
-          "pBigIPInterface": "/Common/internal",
-          "pBigIPS3Bucket": {
+          "BigIPInterface": "/Common/internal",
+          "BigIPS3Bucket": {
             "Fn::GetAtt": [
               "F5InternalTier",
               "Outputs.S3BucketName"
@@ -863,7 +863,7 @@
           {
             "Key": "Project",
             "Value": {
-              "Ref": "pProject"
+              "Ref": "Project"
             }
           }
         ]
